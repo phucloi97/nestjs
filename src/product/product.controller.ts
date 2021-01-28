@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   UsePipes,
@@ -17,22 +18,26 @@ export class ProductController {
   constructor(private productService: ProductService) {}
   //create Product:
   // role: admin
-  // @Post()
-  // @UsePipes(new CreateProductPipe())
-  // createProduct(@Body() item: ProductDto) {
-  //   console.log(item);
-  //   return this.productService.createProduct(item);
-  // }
+  @Post()
+  @UsePipes(new CreateProductPipe())
+  createProduct(@Body() item: ProductDto) {
+    console.log(item);
+    return this.productService.createProduct(item);
+  }
   @Patch('/:id')
   updateProcuct(
     @Body(CreateProductPipe) item: ProductDto,
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
   ) {
     console.log(id);
     return this.productService.updateProduct(id, item);
   }
   @Delete('/:id')
-  deleteProduct(@Param('id') id: number) {}
+  deleteProduct(@Param('id', ParseIntPipe) id: number) {
+    this.productService.deleteProduct(id);
+  }
   @Get()
-  getProduct() {}
+  getProduct() {
+    return this.productService.getProduct();
+  }
 }

@@ -17,6 +17,6 @@ export class Product extends BaseEntity {
   description: string;
   @Column()
   price: number;
-  @ManyToOne(() => Catalog, (catalog) => catalog.item)
-  catalogs: Catalog;
+  @ManyToOne(() => Catalog, (catalog) => catalog.products)
+  catalog: Catalog;
 }

@@ -13,6 +13,6 @@ export class Catalog extends BaseEntity {
   id: number;
   @Column()
   title: string;
-  @OneToMany(() => Product, (product) => product.catalogs, { eager: false })
-  item: Product[];
+  @OneToMany(() => Product, (product) => product.catalog, { eager: false })
+  products: Product[];
 }

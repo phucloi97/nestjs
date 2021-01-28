@@ -20,4 +20,10 @@ export class ProductService {
   async updateProduct(id: number, item: ProductDto) {
     return this.productRepository.updateProduct(id, item);
   }
+  async deleteProduct(id: number) {
+    return await this.productRepository.delete(id);
+  }
+  async getProduct() {
+    return this.productRepository.getProduct();
+  }
 }
