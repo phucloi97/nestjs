@@ -6,7 +6,7 @@ import {
   Unique,
 } from 'typeorm';
 import { UserRole } from './role.enum';
-
+import * as bcrypt from 'bcrypt';
 @Entity()
 // @Unique(['email'])
 export class User extends BaseEntity {
@@ -26,4 +26,9 @@ export class User extends BaseEntity {
   code?: number | null;
   @Column()
   role: UserRole;
+
+  async validatePassword(password: string): Promise<boolean> {
+    const match = await bcrypt.hash(password, this.salt);
+    return match === this.password;
+  }
 }

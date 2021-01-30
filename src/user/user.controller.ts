@@ -7,9 +7,10 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { userLogin } from './dto/user-login.dto';
 import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
-import { SendMail } from '../helper/send-mail.helper';
+// import { SendMail } from '../helper/send-mail.helper';
 
 @Controller('user')
 export class UserController {
@@ -22,13 +23,11 @@ export class UserController {
     this.userService.createUser(userDto);
   }
   @Post('/signin')
-  async signIn() {
-    //   return this.userService.
-    let mail = new SendMail();
-    return mail.send();
+  async signIn(@Body() userLogin: userLogin) {
+    return this.userService.signIn(userLogin);
   }
-  @Get('/validate')
-  async validate() {
-    console.log('ok');
-  }
+  // @Get('/validate')
+  // async validate() {
+  //   console.log('ok');
+  // }
 }
