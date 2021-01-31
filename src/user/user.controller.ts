@@ -4,11 +4,14 @@ import {
   Get,
   Post,
   Redirect,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { userLogin } from './dto/user-login.dto';
 import { UserDto } from './dto/user.dto';
+import { JwtUserGaurd } from './jwt-user.gaurd';
 import { UserService } from './user.service';
 // import { SendMail } from '../helper/send-mail.helper';
 
@@ -26,8 +29,9 @@ export class UserController {
   async signIn(@Body() userLogin: userLogin) {
     return this.userService.signIn(userLogin);
   }
-  // @Get('/validate')
-  // async validate() {
-  //   console.log('ok');
-  // }
+  @UseGuards(JwtUserGaurd)
+  @Get('/validate')
+  async validate() {
+    console.log('ok');
+  }
 }
