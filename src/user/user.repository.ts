@@ -8,7 +8,7 @@ import { UserRole } from './role.enum';
 export class UserRepository extends Repository<User> {
   async createUser(userDto: UserDto) {
     const { user_name, email, password } = userDto;
-    const { salt, code, hashPass } = await this.hashPassword('10');
+    const { salt, code, hashPass } = await this.hashPassword(10, password);
     const user = new User();
     user.code = +code;
     user.user_name = user_name;
@@ -19,8 +19,8 @@ export class UserRepository extends Repository<User> {
     await user.save();
     return user;
   }
-  private async hashPassword(password) {
-    const salt = await bcrypt.genSalt(10);
+  private async hashPassword(saltRound, password) {
+    const salt = await bcrypt.genSalt(saltRound);
     const code = [...Array(6)]
       .map((i) => (Math.random() * 5).toFixed(0))
       .join('');
