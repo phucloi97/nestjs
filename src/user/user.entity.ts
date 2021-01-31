@@ -2,11 +2,13 @@ import {
   BaseEntity,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
 import { UserRole } from './role.enum';
 import * as bcrypt from 'bcrypt';
+import { Order } from 'src/order/order.entity';
 @Entity()
 // @Unique(['email'])
 export class User extends BaseEntity {
@@ -26,6 +28,8 @@ export class User extends BaseEntity {
   code?: number | null;
   @Column()
   role: UserRole;
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 
   async validatePassword(password: string): Promise<boolean> {
     const match = await bcrypt.hash(password, this.salt);

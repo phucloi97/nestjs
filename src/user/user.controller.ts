@@ -8,7 +8,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { User } from './decorator/user.decorator';
 import { userLogin } from './dto/user-login.dto';
 import { UserDto } from './dto/user.dto';
 import { JwtUserGaurd } from './jwt-user.gaurd';
@@ -31,7 +31,7 @@ export class UserController {
   }
   @UseGuards(JwtUserGaurd)
   @Get('/validate')
-  async validate() {
-    console.log('ok');
+  async validate(@User() user_name: string) {
+    return user_name;
   }
 }
