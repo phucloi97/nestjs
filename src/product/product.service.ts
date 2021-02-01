@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CatalogService } from 'src/catalog/catalog.service';
 import { ProductDto } from './dto/product.dto';
@@ -14,7 +14,9 @@ export class ProductService {
   async createProduct(item: ProductDto): Promise<Product> {
     // return this.productRepository.createProduct(item);
     item.catalog = await this.catalogService.getCatalogById(item.catalogid);
-    console.log(item.catalog);
+    if (!item.catalog) {
+      throw new BadRequestException();
+    }
     return this.productRepository.createProduct(item);
   }
   async updateProduct(id: number, item: ProductDto) {
