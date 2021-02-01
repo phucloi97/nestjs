@@ -8,10 +8,13 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { Roles } from './decorator/roles.decorator';
 import { User } from './decorator/user.decorator';
 import { userLogin } from './dto/user-login.dto';
 import { UserDto } from './dto/user.dto';
 import { JwtUserGaurd } from './jwt-user.gaurd';
+import { UserRole } from './role.enum';
+import { RolesGaurd } from './roles.gaurd';
 import { UserService } from './user.service';
 // import { SendMail } from '../helper/send-mail.helper';
 
@@ -29,9 +32,10 @@ export class UserController {
   async signIn(@Body() userLogin: userLogin) {
     return this.userService.signIn(userLogin);
   }
-  @UseGuards(JwtUserGaurd)
+  @UseGuards(JwtUserGaurd, RolesGaurd)
   @Get('/validate')
-  async validate(@User() user_name: string) {
-    return user_name;
+  // @Roles(1)
+  async validate(@User() user: string) {
+    return user;
   }
 }
