@@ -24,7 +24,7 @@ export class User extends BaseEntity {
   salt: string;
   @Column({ default: () => false })
   active: boolean;
-  @Column()
+  @Column({ select: false })
   code?: number | null;
   @Column()
   role: UserRole;
