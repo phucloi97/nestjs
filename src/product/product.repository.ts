@@ -5,7 +5,7 @@ import { Product } from './product.entity';
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
-  async createProduct(item: ProductDto): Promise<Product> {
+  async createProduct(item: ProductDto): Promise<void> {
     const { title, description, price, catalog } = item;
     const product = new Product();
     product.title = title;
@@ -14,7 +14,6 @@ export class ProductRepository extends Repository<Product> {
     product.catalog = catalog;
     await product.save();
     delete product.catalog;
-    return product;
   }
   async updateProduct(id: number, item: ProductDto): Promise<void> {
     try {

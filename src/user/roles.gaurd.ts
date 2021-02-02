@@ -9,7 +9,6 @@ export class RolesGaurd implements CanActivate {
       'roles',
       ctx.getHandler(),
     );
-    console.log(roles);
     if (!roles) {
       return true;
     }

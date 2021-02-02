@@ -12,12 +12,11 @@ export class ProductService {
     private catalogService: CatalogService,
   ) {}
   async createProduct(item: ProductDto): Promise<Product> {
-    // return this.productRepository.createProduct(item);
     item.catalog = await this.catalogService.getCatalogById(item.catalogid);
     if (!item.catalog) {
       throw new BadRequestException();
     }
-    return this.productRepository.createProduct(item);
+    await this.productRepository.createProduct(item);
   }
   async updateProduct(id: number, item: ProductDto) {
     return this.productRepository.updateProduct(id, item);
@@ -25,7 +24,7 @@ export class ProductService {
   async deleteProduct(id: number) {
     return await this.productRepository.delete(id);
   }
-  async getProduct() {
-    return this.productRepository.getProduct();
+  async getProduct(): Promise<Product[]> {
+    return await this.productRepository.getProduct();
   }
 }

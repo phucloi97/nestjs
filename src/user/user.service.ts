@@ -15,7 +15,7 @@ export class UserService {
   async createUser(userDto: UserDto) {
     return this.userRepository.createUser(userDto);
   }
-  async signIn(userLogin: userLogin) {
+  async signIn(userLogin: userLogin): Promise<{ access_token: string }> {
     const { email, password } = userLogin;
     let user = await this.userRepository.findOne({ email });
     let match = await user.validatePassword(password);
@@ -24,6 +24,7 @@ export class UserService {
       throw new UnauthorizedException();
     }
     const payload = { user_name: user.user_name, id: user.id };
-    return this.jwtService.sign(payload);
+    const access_token = await this.jwtService.sign(payload);
+    return { access_token };
   }
 }

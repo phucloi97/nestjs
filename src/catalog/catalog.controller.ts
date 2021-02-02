@@ -15,11 +15,11 @@ import { CatalogService } from './catalog.service';
 export class CatalogController {
   constructor(private catalogService: CatalogService) {}
   @Post()
-  async createCatalog(@Body('title') title: string): Promise<Catalog> {
-    return await this.catalogService.createCatalog(title);
+  async createCatalog(@Body('title') title: string): Promise<void> {
+    await this.catalogService.createCatalog(title);
   }
   @Get()
-  async getCatalog() {
+  async getCatalog(): Promise<Catalog[]> {
     console.log(await this.catalogService.getCatalog());
     return await this.catalogService.getCatalog();
   }
@@ -31,7 +31,7 @@ export class CatalogController {
     this.catalogService.updateCatalog(id, title);
   }
   @Delete('/:id')
-  async deleteCatalog(@Param('id') id: number) {
+  async deleteCatalog(@Param('id') id: number): Promise<void> {
     this.catalogService.deleteCatalog(id);
   }
 }
