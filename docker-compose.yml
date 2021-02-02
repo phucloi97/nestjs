@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:13
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: loye
+      POSTGRES_DB: company
+      POSTGRES_PASSWORD: '1011'
+    volumes:
+      - database:/var/lib/postgresql/data
+volumes:
+  database:

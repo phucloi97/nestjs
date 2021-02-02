@@ -7,6 +7,12 @@ import { UserModule } from './user/user.module';
 import { OrderModule } from './order/order.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeOrmConfig), ProductModule, CatalogModule, UserModule, OrderModule],
+  imports: [
+    TypeOrmModule.forRoot(typeOrmConfig),
+    ProductModule,
+    CatalogModule,
+    UserModule,
+    OrderModule,
+  ],
 })
 export class AppModule {}
