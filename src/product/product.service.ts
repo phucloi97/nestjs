@@ -11,7 +11,7 @@ export class ProductService {
     @InjectRepository(Product) private productRepository: ProductRepository,
     private catalogService: CatalogService,
   ) {}
-  async createProduct(item: ProductDto): Promise<Product> {
+  async createProduct(item: ProductDto): Promise<void> {
     item.catalog = await this.catalogService.getCatalogById(item.catalogid);
     if (!item.catalog) {
       throw new BadRequestException();

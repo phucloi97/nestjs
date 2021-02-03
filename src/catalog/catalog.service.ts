@@ -15,7 +15,7 @@ export class CatalogService {
   async getCatalogById(id: number): Promise<Catalog> {
     return await this.catalogRepository.findOne(id);
   }
-  async updateCatalog(id: number, title: string): Promise<void> {
+  async updateCatalog(id: string, title: string): Promise<void> {
     return await this.catalogRepository.updateCatalog(id, title);
   }
   async deleteCatalog(id: number): Promise<void> {
