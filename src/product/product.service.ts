@@ -19,6 +19,10 @@ export class ProductService {
     await this.productRepository.createProduct(item);
   }
   async updateProduct(id: number, item: ProductDto) {
+    item.catalog = await this.catalogService.getCatalogById(item.catalogid);
+    if (!item.catalog) {
+      throw new BadRequestException();
+    }
     return this.productRepository.updateProduct(id, item);
   }
   async deleteProduct(id: number) {

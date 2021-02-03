@@ -7,9 +7,12 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UsePipes,
 } from '@nestjs/common';
-import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { FilterProductDto } from './dto/filter-product.dto';
+import { PriceDto } from './dto/price.dto';
 import { ProductDto } from './dto/product.dto';
 import { CreateProductPipe } from './pipes/create-product.pipe';
 import { Product } from './product.entity';
@@ -19,26 +22,33 @@ import { ProductService } from './product.service';
 @Controller('product')
 export class ProductController {
   constructor(private productService: ProductService) {}
+
+  @Get('')
+  async getProduct(
+    @Query() filterDto: PriceDto,
+    @Query() df: FilterProductDto,
+  ) {
+    console.table({ filterDto });
+    // return this.productService.getProduct();
+    return 'ok';
+  }
+
   @Post()
   @UsePipes(new CreateProductPipe())
   @ApiBody({ type: ProductDto })
-  createProduct(@Body() item: ProductDto) {
-    this.productService.createProduct(item);
+  async createProduct(@Body() item: ProductDto) {
+    await this.productService.createProduct(item);
   }
   @Patch('/:id')
   @ApiBody({ type: ProductDto })
-  updateProcuct(
+  async updateProcuct(
     @Body(CreateProductPipe) item: ProductDto,
     @Param('id', ParseIntPipe) id: number,
   ) {
-    this.productService.updateProduct(id, item);
+    await this.productService.updateProduct(id, item);
   }
   @Delete('/:id')
   async deleteProduct(@Param('id', ParseIntPipe) id: number) {
     this.productService.deleteProduct(id);
-  }
-  @Get() //phan nay con thieu
-  async getProduct(): Promise<Product[]> {
-    return this.productService.getProduct();
   }
 }
