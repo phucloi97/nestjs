@@ -28,7 +28,6 @@ export class ProductController {
   @UsePipes(FilterProductPipe)
   async getProduct(@Query() filterDto: FilterProductDto): Promise<Product[]> {
     console.table({ filterDto });
-    // return this.productService.getProduct();
     const { min, max } = filterDto;
     if ((min === max && !(min === 0)) || min > max) {
       throw new BadRequestException();
@@ -48,6 +47,7 @@ export class ProductController {
     @Body(CreateProductPipe) item: ProductDto,
     @Param('id', ParseIntPipe) id: number,
   ) {
+    console.log(item);
     await this.productService.updateProduct(id, item);
   }
   @Delete('/:id')

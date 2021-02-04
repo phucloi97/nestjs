@@ -7,22 +7,16 @@ import { Product } from './product.entity';
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
   async createProduct(item: ProductDto): Promise<void> {
-    const { title, description, price, catalog } = item;
-    const product = new Product();
-    product.title = title;
-    product.description = description;
-    product.price = price;
-    product.catalog = catalog;
-    await product.save();
+    let product = await this.save(item);
     delete product.catalog;
   }
   async updateProduct(id: number, item: ProductDto): Promise<void> {
+    const { catalogid, ...data } = item;
+    console.log(item);
     try {
-      await Product.update(id, {
-        title: item.title,
-        description: item.description,
-        price: item.price,
-      });
+      const x = await Product.update(id, { ...data });
+      console.log('[update product]');
+      console.log(x);
     } catch (err) {
       throw new BadRequestException(err.message);
     }
