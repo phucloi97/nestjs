@@ -12,11 +12,8 @@ export class ProductRepository extends Repository<Product> {
   }
   async updateProduct(id: number, item: ProductDto): Promise<void> {
     const { catalogid, ...data } = item;
-    console.log(item);
     try {
       const x = await Product.update(id, { ...data });
-      console.log('[update product]');
-      console.log(x);
     } catch (err) {
       throw new BadRequestException(err.message);
     }

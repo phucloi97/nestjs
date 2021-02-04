@@ -47,11 +47,10 @@ export class ProductController {
     @Body(CreateProductPipe) item: ProductDto,
     @Param('id', ParseIntPipe) id: number,
   ) {
-    console.log(item);
     await this.productService.updateProduct(id, item);
   }
   @Delete('/:id')
   async deleteProduct(@Param('id', ParseIntPipe) id: number) {
-    this.productService.deleteProduct(id);
+    await this.productService.deleteProduct(id);
   }
 }
