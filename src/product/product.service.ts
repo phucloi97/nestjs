@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CatalogService } from 'src/catalog/catalog.service';
+import { FilterProductDto } from './dto/filter-product.dto';
 import { ProductDto } from './dto/product.dto';
 import { Product } from './product.entity';
 import { ProductRepository } from './product.repository';
@@ -28,7 +29,7 @@ export class ProductService {
   async deleteProduct(id: number) {
     return await this.productRepository.delete(id);
   }
-  async getProduct(): Promise<Product[]> {
-    return await this.productRepository.getProduct();
+  async getProduct(filterDto: FilterProductDto): Promise<Product[]> {
+    return await this.productRepository.getProduct(filterDto);
   }
 }

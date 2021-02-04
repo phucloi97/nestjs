@@ -18,6 +18,11 @@ import { CatalogDto } from './dto/catalog.dto';
 @Controller('catalog')
 export class CatalogController {
   constructor(private catalogService: CatalogService) {}
+  @Get()
+  async getCatalog(): Promise<Catalog[]> {
+    return await this.catalogService.getCatalog();
+  }
+
   @Post()
   @ApiBody({ type: CatalogDto })
   async createCatalog(@Body() catalogDto: CatalogDto): Promise<void> {
@@ -26,10 +31,7 @@ export class CatalogController {
     }
     await this.catalogService.createCatalog(catalogDto.title);
   }
-  @Get()
-  async getCatalog(): Promise<Catalog[]> {
-    return await this.catalogService.getCatalog();
-  }
+
   @Patch('/:id')
   @ApiBody({ type: CatalogDto })
   async updateCatalog(
@@ -38,6 +40,7 @@ export class CatalogController {
   ): Promise<void> {
     await this.catalogService.updateCatalog(id, catalogDto.title);
   }
+
   @Delete('/:id')
   async deleteCatalog(@Param('id') id: number): Promise<void> {
     this.catalogService.deleteCatalog(id);

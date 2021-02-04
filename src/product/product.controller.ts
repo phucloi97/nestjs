@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -10,11 +11,11 @@ import {
   Query,
   UsePipes,
 } from '@nestjs/common';
-import { ApiBody, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { FilterProductDto } from './dto/filter-product.dto';
-import { PriceDto } from './dto/price.dto';
 import { ProductDto } from './dto/product.dto';
 import { CreateProductPipe } from './pipes/create-product.pipe';
+import { FilterProductPipe } from './pipes/filter-product.pipe';
 import { Product } from './product.entity';
 import { ProductService } from './product.service';
 
@@ -23,14 +24,16 @@ import { ProductService } from './product.service';
 export class ProductController {
   constructor(private productService: ProductService) {}
 
-  @Get('')
-  async getProduct(
-    @Query() filterDto: PriceDto,
-    @Query() df: FilterProductDto,
-  ) {
+  @Get()
+  @UsePipes(FilterProductPipe)
+  async getProduct(@Query() filterDto: FilterProductDto): Promise<Product[]> {
     console.table({ filterDto });
     // return this.productService.getProduct();
-    return 'ok';
+    const { min, max } = filterDto;
+    if ((min === max && !(min === 0)) || min > max) {
+      throw new BadRequestException();
+    }
+    return await this.productService.getProduct(filterDto);
   }
 
   @Post()
