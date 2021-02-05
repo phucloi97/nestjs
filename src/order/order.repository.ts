@@ -5,5 +5,14 @@ import { Order } from './order.entity';
 
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
-  async createOrder(items: Product[], user: User) {}
+  async createOrder(price: number, items: Product[], user: User) {
+    console.log('trig');
+    console.log(user);
+    const order = new Order();
+    order.totalPrice = price;
+    order.products = items;
+    order.user = user;
+    await order.save();
+    delete order.user;
+  }
 }

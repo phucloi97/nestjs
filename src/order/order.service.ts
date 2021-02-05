@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/product/product.entity';
 import { ProductRepository } from 'src/product/product.repository';
@@ -20,7 +20,19 @@ export class OrderService {
   ) {
     const items = await this.productRepository.findByIds([...ids]);
     const user: User = await this.userRepository.findOne({ ...userInfo });
-    // console.log(user.code);
+    if (!items || !user) {
+      throw new BadRequestException();
+    }
+    const price = items.reduce((sum, next) => {
+      return sum + next.price;
+    }, 0);
+    return await this.orderRepository.createOrder(price, items, user);
+  }
+  async getOrder(userInfo: { user_name: string; role: number }) {
+    const user: User = await this.userRepository.findOne(
+      { ...userInfo },
+      { relations: ['orders'], select: ['user_name', 'email', 'id'] },
+    );
     return user;
   }
 }

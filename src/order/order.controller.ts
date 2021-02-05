@@ -25,7 +25,7 @@ export class OrderController {
   //id
   @Get()
   @Roles(UserRole.Emplyee, UserRole.Admin, UserRole.Customer)
-  getOrder() {
-    return 'get id ok';
+  getOrder(@GetUser() userInfo: { user_name: string; role: number }) {
+    return this.orderService.getOrder(userInfo);
   }
 }

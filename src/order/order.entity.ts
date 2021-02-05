@@ -4,6 +4,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -18,5 +19,6 @@ export class Order extends BaseEntity {
   @ManyToOne(() => User, (user) => user.orders)
   user: User;
   @ManyToMany(() => Product)
+  @JoinTable()
   products: Product[];
 }
