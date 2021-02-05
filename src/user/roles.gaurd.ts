@@ -5,6 +5,7 @@ import { Reflector } from '@nestjs/core';
 export class RolesGaurd implements CanActivate {
   constructor(private reflector: Reflector) {}
   canActivate(ctx: ExecutionContext) {
+    console.log('[rolegaurd active]');
     const roles: number[] = this.reflector.get<number[]>(
       'roles',
       ctx.getHandler(),

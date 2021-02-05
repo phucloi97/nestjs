@@ -18,8 +18,10 @@ export class UserService {
   async signIn(userLogin: userLogin): Promise<{ access_token: string }> {
     const { email, password } = userLogin;
     let user = await this.userRepository.findOne({ email });
+    if (!user) {
+      throw new UnauthorizedException();
+    }
     let match = await user.validatePassword(password);
-    console.log(user);
     if (!match) {
       throw new UnauthorizedException();
     }

@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtUserGaurd } from './jwt-user.gaurd';
 import { JwtStrategy } from './jwt.strategy';
+import { RolesGaurd } from './roles.gaurd';
 import { UserController } from './user.controller';
 import { UserRepository } from './user.repository';
 import { UserService } from './user.service';
@@ -18,6 +20,6 @@ import { UserService } from './user.service';
   ],
   controllers: [UserController],
   providers: [UserService, JwtStrategy],
-  exports: [UserService],
+  exports: [UserService, PassportModule],
 })
 export class UserModule {}
